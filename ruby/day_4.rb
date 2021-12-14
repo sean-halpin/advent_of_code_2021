@@ -18,14 +18,9 @@ class BingoCard
 
   def bingo_value(row)
     intersect = @@drawn.intersection(row)
-    if intersect.size == 5
-      p "BINGO" + intersect.to_s
-      sum_unhit = @rows.map { |s| s.to_a }.flatten.to_set.subtract(@@drawn).to_a.reduce(0) { |c, i| c + i.to_i }
-      p "UNHIT: " + sum_unhit.to_s
-      return sum_unhit
-    else
-      return nil
-    end
+    return intersect.size == 5 ?
+             @rows.map { |s| s.to_a }.flatten.to_set.subtract(@@drawn).to_a.reduce(0) { |c, i| c + i.to_i } :
+             nil
   end
 
   def check_bingo
@@ -56,7 +51,6 @@ numbers_drawn = data[0].split(",")
 winning_number = 0
 winning_line_sum = 0
 numbers_drawn.each { |drawn|
-  p drawn
   BingoCard.draw_number drawn
   cards.each { |card|
     val = card.check_bingo
