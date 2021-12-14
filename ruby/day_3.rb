@@ -1,4 +1,4 @@
-result = File.readlines("data/day_3").each.reduce({}) { |state, binary_str|
+gamma_func = lambda { |state, binary_str|
   binary_str = binary_str.strip
   num = binary_str.to_i(2)
   mask = 1 << (binary_str.size)
@@ -12,6 +12,9 @@ result = File.readlines("data/day_3").each.reduce({}) { |state, binary_str|
   end
   state
 }
+
+lines = File.readlines("data/day_3")
+result = lines.each.reduce({}) { |c, n| gamma_func.call(c, n) }
 
 gamma_str = result.each.reduce("") { |c, n|
   k, v = n
@@ -32,3 +35,28 @@ puts (epsilon.to_s(2))
 puts (gamma)
 puts (epsilon)
 p gamma * epsilon
+
+def oxygen(sub, gamma_func)
+  result = sub.each.reduce({}) { |c, n| gamma_func.call(c, n) }
+  mask = 1 << (sub[0].strip.length - 1)
+  p mask
+  coll = sub.collect { |e|
+    e = e.strip.to_i(2)
+    if result[1] > 0
+      ((e & mask) > 0 ? e : nil)
+    else
+      ((e & mask) <= 0 ? e : nil)
+    end
+  }
+
+  comp = coll.compact
+  if comp.length == 1
+    p "comp"
+    return comp
+  else
+    p "hi"
+    return oxygen(comp, gamma_func)
+  end
+end
+
+puts oxygen(lines, gamma_func)

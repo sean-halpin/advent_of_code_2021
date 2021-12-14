@@ -1,0 +1,7 @@
+{
+        "editor.defaultFormatter": "rebornix.ruby",
+        "editor.formatOnPaste": true,
+        "[ruby]": {
+                "editor.defaultFormatter": "jnbt.vscode-rufo"
+        }
+}
